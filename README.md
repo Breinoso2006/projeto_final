@@ -13,6 +13,7 @@ pip install opencv-python
 
 ### Mediapipe
 Framework da Google utilizado para construção de pipelines de aprendizado de máquina para o processamento de dados relacionados a áudio, vídeo, etc. Este framework foi desenvolvido em C++, JAVA e Obj-C, e sua estrutura consiste em 3 principais APIs:
+
 - API de Calculadora
 - API de construção de gráficos
 - API de execução de gráficos
