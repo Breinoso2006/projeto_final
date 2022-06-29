@@ -9,7 +9,8 @@ linhas = mp.solutions.drawing_utils
 while True:
     
     status, frame = camera.read()
-    resultados = mao.process(frame)
+    videoRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    resultados = mao.process(videoRGB)
     pontos_mao = resultados.multi_hand_landmarks
     altura, largura, _ = frame.shape
     coordenada_pontos = []
