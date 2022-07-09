@@ -1,18 +1,36 @@
 import cv2
 import mediapipe as mp
 import sys
+import os
 
-with mp.solutions.face_detection.FaceDetection() as reconhecedor:
+# Initial Setup
+reconhecedor = mp.solutions.face_detection.FaceDetection()
 
-    imagem = cv2.imread(r'C:\Users\Bruno\Documents\projeto_final\caso_base\img.jpg')
-    results = mp.solutions.face_detection.FaceDetection().process(cv2.cvtColor(imagem, cv2.COLOR_BGR2RGB))
+for filename in os.listdir():
 
+    # Variables
+    final_path = 'new_' + filename
+    count = 0
+
+    # Garantees that 'filename' is an image
+    if (not filename.endswith('.jpg') and not filename.endswith('.jpeg')):
+        continue
+
+    # Getting image
+    image = cv2.imread(filename)
+    results = reconhecedor.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+
+    # Treating possible errors
     if not results.detections:
-        print('Sem resultados')
+        print('No face detected in this image.')
         sys.exit()
+    new_image = image.copy()
 
-    imagem_identificada = imagem.copy()
-
+    # Detecting, counting and drawing on image
     for detection in results.detections:
-        mp.solutions.drawing_utils.draw_detection(imagem_identificada, detection)
-    cv2.imwrite('caso_base\imagem_identificada.png', imagem_identificada)
+        count += 1
+        mp.solutions.drawing_utils.draw_detection(new_image, detection)
+
+    cv2.rectangle(new_image, (80, 10), (200, 100), (255, 0, 0), -1)
+    cv2.putText(new_image, str(count), (100, 100), cv2.FONT_HERSHEY_SIMPLEX,4, (255,255,255), 5)
+    cv2.imwrite(final_path, new_image)
