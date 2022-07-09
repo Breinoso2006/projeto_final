@@ -4,7 +4,7 @@ import sys
 import os
 
 # Initial Setup
-reconhecedor = mp.solutions.face_detection.FaceDetection()
+recognizer = mp.solutions.face_detection.FaceDetection()
 
 for filename in os.listdir():
 
@@ -12,13 +12,13 @@ for filename in os.listdir():
     final_path = 'new_' + filename
     count = 0
 
-    # Garantees that 'filename' is an image
+    # To confirm that 'filename' is an image
     if (not filename.endswith('.jpg') and not filename.endswith('.jpeg')):
         continue
 
     # Getting image
     image = cv2.imread(filename)
-    results = reconhecedor.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    results = recognizer.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 
     # Treating possible errors
     if not results.detections:
