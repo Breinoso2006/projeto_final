@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 # Test Files
-caso_base/img.jpg
-caso_base/imagem_identificada.png
+1.detec_face_img\img.jpg
+1.detec_face_img\new_img.jpg
 contador_polichinelos_webcam\polichinelos.mp4

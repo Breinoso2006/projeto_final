@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import math
 
-video = cv2.VideoCapture('contador_polichinelos_webcam\polichinelos.mp4')
+video = cv2.VideoCapture('4.contador_polichinelos_webcam\polichinelos.mp4')
 solucao_pose = mp.solutions.pose
 Pose = solucao_pose.Pose(min_tracking_confidence=0.5, min_detection_confidence=0.5)
 linhas = mp.solutions.drawing_utils
