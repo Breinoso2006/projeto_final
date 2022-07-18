@@ -3,7 +3,8 @@ import mediapipe as mp
 import math
 
 # Initial Setup
-video = cv2.VideoCapture('4.contador_polichinelos_webcam\polichinelos.mp4')
+video = cv2.VideoCapture('4.counting_jumping_jacks_webcam\jacks.mp4')
+# video = cv2.VideoCapture(0)
 pose_solution = mp.solutions.pose
 Pose = pose_solution.Pose(min_tracking_confidence=0.5, min_detection_confidence=0.5)
 lines = mp.solutions.drawing_utils
@@ -20,7 +21,7 @@ while True:
     lines.draw_landmarks(frame, body_points, pose_solution.POSE_CONNECTIONS)
     height, width, _ = frame.shape
 
-    # Pontos: https://google.github.io/mediapipe/solutions/pose.html
+    # Image points: https://google.github.io/mediapipe/solutions/pose.html
     
     # Detecting body and counting jumping jacks
     if body_points:
@@ -49,6 +50,7 @@ while True:
     # Showing analysis
     cv2.rectangle(frame, (80, 10), (200, 100), (255, 0, 0), -1)
     cv2.putText(frame, str(count), (100, 100), cv2.FONT_HERSHEY_SIMPLEX,4, (255,255,255), 5)
+    frame = cv2.resize(frame, (360, 640)) 
     cv2.imshow('Video', frame)
 
     # To close the window with 'esc' buttom

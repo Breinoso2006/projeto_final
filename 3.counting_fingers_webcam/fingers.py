@@ -27,12 +27,13 @@ while True:
                 cx, cy = int(coordinate.x * width), int(coordinate.y * height)
                 coordinates.append((cx, cy))
 
-        fingers = [8,12,16,20]
-
         if points:
+            # Thumb analises
             if coordinates[4][0] < coordinates[2][0]:
                 count += 1
-            for f in fingers:
+            # Fingertips analises
+            fingertips = [8,12,16,20]
+            for f in fingertips:
                 if coordinates[f][1] < coordinates[f-2][1]:
                     count += 1
     
