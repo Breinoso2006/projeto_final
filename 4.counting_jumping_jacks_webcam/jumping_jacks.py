@@ -3,7 +3,7 @@ import mediapipe as mp
 import math
 
 # Initial Setup
-video = cv2.VideoCapture('4.counting_jumping_jacks_webcam\jacks.mp4')
+video = cv2.VideoCapture('jacks.mp4')
 # video = cv2.VideoCapture(0)
 pose_solution = mp.solutions.pose
 Pose = pose_solution.Pose(min_tracking_confidence=0.5, min_detection_confidence=0.5)
