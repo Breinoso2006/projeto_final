@@ -10,6 +10,7 @@ while True:
     
     # 'status' returns a boolean (True/False) and 'frame' returns an image
     status, frame = camera.read()
+    frame = cv2.flip(frame, 1)
 
     if not status:
         break

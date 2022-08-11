@@ -4,7 +4,7 @@ import math
 
 # Initial Setup
 video = cv2.VideoCapture('jacks.mp4')
-# video = cv2.VideoCapture(0)
+# video = cv2.VideoCapture(0) # if you want to use webcam as videocapture
 pose_solution = mp.solutions.pose
 Pose = pose_solution.Pose(min_tracking_confidence=0.5, min_detection_confidence=0.5)
 lines = mp.solutions.drawing_utils
@@ -14,14 +14,13 @@ check = True
 while True:
     
     # Variables
-    status, frame = video.read()
+    status, frame = video.read(0)
+    # frame = cv2.flip(frame, 1) # if you're using webcam as videocapture
     RGBvideo = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = Pose.process(RGBvideo)
     body_points = results.pose_landmarks
     lines.draw_landmarks(frame, body_points, pose_solution.POSE_CONNECTIONS)
     height, width, _ = frame.shape
-
-    # Image points: https://google.github.io/mediapipe/solutions/pose.html
     
     # Detecting body and counting jumping jacks
     if body_points:

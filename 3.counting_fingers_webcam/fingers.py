@@ -1,5 +1,6 @@
 import cv2 
 import mediapipe as mp
+from google.protobuf.json_format import MessageToDict
 
 # Initial Setup
 camera = cv2.VideoCapture(0)
@@ -11,12 +12,19 @@ while True:
     
     # Variables
     status, frame = camera.read()
+    frame = cv2.flip(frame, 1)
     videoRGB = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = hand.process(videoRGB)
     hand_points = results.multi_hand_landmarks
     height, width, _ = frame.shape
     coordinates = []
     count = 0
+
+    # Detecting which hand is showed
+    if results.multi_handedness:
+        for id, hand_handedness in enumerate(results.multi_handedness):
+            handedness_dict = MessageToDict(hand_handedness)
+            which_hand = (handedness_dict['classification'][0]['label'])
 
     # Detecting and counting fingers
     if hand_points:
@@ -28,14 +36,26 @@ while True:
                 coordinates.append((cx, cy))
 
         if points:
-            # Thumb analises
-            if coordinates[4][0] < coordinates[2][0]:
-                count += 1
-            # Fingertips analises
-            fingertips = [8,12,16,20]
-            for f in fingertips:
-                if coordinates[f][1] < coordinates[f-2][1]:
+            if which_hand == 'Right':
+                # Thumb analises
+                if coordinates[4][0] < coordinates[2][0]:
                     count += 1
+                # Fingertips analises
+                fingertips = [8,12,16,20]
+                for f in fingertips:
+                    if coordinates[f][1] < coordinates[f-2][1]:
+                        count += 1
+            elif which_hand == 'Left':
+                # Thumb analises
+                if coordinates[4][0] > coordinates[2][0]:
+                    count += 1
+                # Fingertips analises
+                fingertips = [8,12,16,20]
+                for f in fingertips:
+                    if coordinates[f][1] < coordinates[f-2][1]:
+                        count += 1
+            else:
+                break
     
     # Showing analysis
     cv2.rectangle(frame, (80, 10), (200, 100), (255, 0, 0), -1)
